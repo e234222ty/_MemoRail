@@ -90,8 +90,8 @@
       document.getElementById('editWords').addEventListener('click',()=>edit('words'));
     }
     if(!dialog.open)dialog.showModal();
-    // Native dialog handles focus trapping. Focus the form after its content is ready.
-    const target=view==='memory'?document.getElementById('memoryUsername'):document.getElementById('experienceConfirm');
+    // 入力画面では、走行キーの文字が入力されないようダイアログの枠にフォーカスする。
+    const target=view==='memory'?dialog:document.getElementById('experienceConfirm');
     target.focus({preventScroll:true});
     dialog.scrollTop=0;
   }

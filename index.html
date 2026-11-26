@@ -5,7 +5,7 @@
 <meta name="description" content="MemoRail">
 <meta name="theme-color" content="#edece2"><title>MemoRail</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%232b3f4a'/%3E%3Ctext x='7' y='29' font-size='29' fill='%23f1d49c'%3EM%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="index.css"><script src="journey-config.js" defer></script><script src="index.js" defer></script><script src="memory-model.js" defer></script><script src="postcard.js" defer></script><script src="morphology-client.js" defer></script><script src="experience.js" defer></script>
+<link rel="stylesheet" href="index.css?v=dialog-focus-3"><script src="journey-config.js" defer></script><script src="index.js" defer></script><script src="memory-model.js" defer></script><script src="postcard.js" defer></script><script src="morphology-client.js" defer></script><script src="experience.js?v=dialog-focus-3" defer></script>
 </head>
 <body>
 <main class="at-start" id="world" aria-label="MemoRail 時をめぐる列車の旅">
@@ -23,8 +23,8 @@
   <div class="start-content"><h1 class="start-logo">MemoRail<span class="start-logo-rail" aria-hidden="true"></span></h1><button id="startButton" class="start-button" disabled><span class="start-key">SPACE</span><span>キーを押してスタート</span></button>
   </div>
  </section>
- <dialog id="experienceDialog" class="experience-dialog" aria-labelledby="experienceTitle"><div id="experienceContent"></div></dialog>
- <div id="loading" role="status" aria-live="polite"><div class="loading-inner"><span class="loading-logo">MemoRail</span><span class="loading-track"></span><p id="loadingText">旅の準備をしています…</p></div></div>
+ <dialog id="experienceDialog" class="experience-dialog" aria-labelledby="experienceTitle" autofocus><div id="experienceContent"></div></dialog>
+ <div id="loading" role="status" aria-live="polite"><div class="loading-inner"><span class="loading-logo">MemoRail</span><span class="loading-track"></span><p id="loadingText">準備中</p></div></div>
  <div id="assetError" role="alert" hidden><p>一部の画像を読み込めませんでした。</p><button onclick="location.reload()">再読み込み</button></div>
  <noscript>MemoRailを操作するにはJavaScriptを有効にしてください。</noscript>
 </main>

@@ -372,3 +372,7 @@ body {
   font-size: 0.875rem;
   line-height: 1.5;
 }
+
+.experience-dialog[data-view="memory"]:focus {
+  outline: none;
+}

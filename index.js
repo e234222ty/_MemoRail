@@ -696,7 +696,16 @@ function animate(now) {
 }
 
 // 15. キーボード操作
+// 走行に使ったキーは、停車でフォーカスが入力欄に移っても離すまで追跡する。
+const driveKeyPresses = new Set();
+
 function handleJourneyKeyDown(event) {
+  if (event.repeat && driveKeyPresses.has(event.code)) {
+    event.preventDefault();
+    return;
+  }
+  if (!event.repeat) driveKeyPresses.delete(event.code);
+
   if (event.isComposing || event.ctrlKey || event.metaKey || event.altKey
     || event.target?.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target?.tagName || "")) return;
   if ((event.code === "Space" || event.key === " ") && window.MemoRailExperience?.phase === "start") {
@@ -706,10 +715,16 @@ function handleJourneyKeyDown(event) {
   if (window.MemoRailExperience?.phase !== "travel" || !movementEnabled) return;
   if (event.code !== "KeyA" && event.code !== "KeyD") return;
   event.preventDefault();
-  if (!event.repeat) heldDriveKeys.add(event.code);
+  if (!event.repeat) {
+    heldDriveKeys.add(event.code);
+    driveKeyPresses.add(event.code);
+  }
 }
-document.addEventListener("keydown", handleJourneyKeyDown);
-document.addEventListener("keyup", event => heldDriveKeys.delete(event.code));
+document.addEventListener("keydown", handleJourneyKeyDown, true);
+document.addEventListener("keyup", event => {
+  heldDriveKeys.delete(event.code);
+  driveKeyPresses.delete(event.code);
+}, true);
 window.addEventListener("blur", () => heldDriveKeys.clear());
 
 window.addEventListener("resize", () => { layoutDirty = true; });
