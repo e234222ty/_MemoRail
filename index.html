@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="MemoRail">
+<meta name="theme-color" content="#edece2"><title>MemoRail</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%232b3f4a'/%3E%3Ctext x='7' y='29' font-size='29' fill='%23f1d49c'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="index.css"><script src="journey-config.js" defer></script><script src="index.js" defer></script><script src="memory-model.js" defer></script><script src="postcard.js" defer></script><script src="morphology-client.js" defer></script><script src="experience.js" defer></script>
+</head>
+<body>
+<main class="at-start" id="world" aria-label="MemoRail 時をめぐる列車の旅">
+ <div id="sky" aria-hidden="true"></div>
+ <div id="sceneryImageLayer" aria-hidden="true"></div>
+ <div id="railway" aria-hidden="true"><div id="sleepers"></div></div>
+ <div id="train" role="img" aria-label="右向きの蒸気機関車と4両の客車"></div>
+ <div id="smokeLayer" aria-hidden="true"></div><canvas id="sparkCanvas" aria-hidden="true"></canvas>
+ <div id="platform" aria-hidden="true"></div>
+ <header class="app-header">
+  <div><a id="logo" href="./" aria-label="MemoRail ホーム">MemoRail<span class="logo-rail" aria-hidden="true"></span></a></div>
+  <div class="header-actions"><button id="resetButton" class="icon-button" aria-label="最初からやり直す" title="最初から">↺</button></div>
+ </header>
+ <section id="startScreen" class="start-screen" aria-label="MemoRail スタート画面">
+  <div class="start-content"><h1 class="start-logo">MemoRail<span class="start-logo-rail" aria-hidden="true"></span></h1><button id="startButton" class="start-button" disabled><span class="start-key">SPACE</span><span>キーを押してスタート</span></button>
+   <p class="start-drive-hint">Aキーで後退・Dキーで前進</p>
+  </div>
+ </section>
+ <dialog id="experienceDialog" class="experience-dialog" aria-labelledby="experienceTitle"><div id="experienceContent"></div></dialog>
+ <div id="loading" role="status" aria-live="polite"><div class="loading-inner"><span class="loading-logo">MemoRail</span><span class="loading-track"></span><p id="loadingText">旅の準備をしています…</p></div></div>
+ <div id="assetError" role="alert" hidden><p>一部の画像を読み込めませんでした。</p><button onclick="location.reload()">再読み込み</button></div>
+ <noscript>MemoRailを操作するにはJavaScriptを有効にしてください。</noscript>
+</main>
+</body></html>

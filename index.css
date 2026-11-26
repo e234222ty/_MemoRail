@@ -1,0 +1,374 @@
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* ========================================
+   ワールド
+======================================== */
+
+#world {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #dce9e9;
+}
+
+/* ========================================
+   空
+======================================== */
+
+#sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background: #a7d9fd;
+}
+
+/* 空・ホーム・遠景で共通使用する画像タイル */
+.scene-image-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat-x;
+  /* 高さに合わせて等比拡大縮小する。幅は実際の画像比率から自動計算。 */
+  /* 画面が横長なら左右に繰り返しても、通常シーン画像は両端が一致する。 */
+  background-size: auto 100%;
+  background-position-y: bottom;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* 遠景を画像素材に変更するときに使用 */
+#sceneryImageLayer {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ========================================
+   列車
+======================================== */
+
+#train {
+  /* 基準の車体サイズに倍率をかけ、車輪の高さを維持する。 */
+  --train-base-height: 173px;
+  --train-scale: 1.69;
+  --train-height: calc(var(--train-base-height) * var(--train-scale));
+
+  position: absolute;
+  top: calc(43% + 300px - var(--train-height));
+  /* 先頭車両（651×330）の中心を画面左端から60%の位置に置く。 */
+  left: 60%;
+  transform: translateX(calc(-100% + var(--train-height) * 651 / 660 + var(--train-x, 0px)));
+  display: flex;
+  align-items: flex-end;
+  width: max-content;
+  height: var(--train-height);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 5枚の画像を縦横比を崩さず、隙間なく左から右へ連結 */
+.train-car {
+  display: block;
+  flex: 0 0 auto;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+/* 縮小時のサブピクセル境界に生じるごく細い隙間を防ぐ */
+.train-car + .train-car {
+  margin-left: -1px;
+}
+
+/* ========================================
+   煙（空の上、列車の手前に重ねて表示）
+======================================== */
+
+#smokeLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.smoke-puff {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform, opacity;
+}
+
+/* ========================================
+   線路
+======================================== */
+
+#railway {
+  /* =====線路の調整===== */
+  --rail-tile-width: 27.5px;    /* 線路1枚の表示幅 */
+  --rail-tile-height: 18.25px;/* 線路1枚の表示高さ */
+  --rail-overlap: 4px;        /* 隣の画像と重ねる幅 */
+  --rail-tile-y: 25px;        /* この領域内での線路の上下位置 */
+  --rail-image-zoom-x: 95%; /* 元画像の左右透明余白を切るための倍率 */
+
+  position: absolute;
+  top: calc(51% + 191px); /* 線路全体の上下位置 */
+  left: 0;                /* 線路全体の左右位置 */
+  width: 100%;
+  height: calc(var(--rail-tile-y) + var(--rail-tile-height) + 50px);
+  /* 下から48px浮かび上がる演出が切れない高さを確保 */
+  z-index: 2;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ========================================
+   枕木
+======================================== */
+
+#sleepers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* タイルはJS側で (表示幅 - 重なり幅) ごとに横並びにする */
+.sleeper {
+  position: absolute;
+  top: var(--rail-tile-y);
+  width: var(--rail-tile-width);
+  height: var(--rail-tile-height);
+  background-image: url("images/rail_00.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: var(--rail-image-zoom-x) 100%;
+
+  transform: none;             /* 設置後は上下に揺れない */
+  transform-origin: center center;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ========================================
+   ホーム
+======================================== */
+
+#platform {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 29%;
+  z-index: 4;
+
+  background-image: none;
+
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 bottom;
+
+  will-change: background-position;
+}
+
+/* ========================================
+   ロゴ
+======================================== */
+
+#logo {
+  position: fixed;
+  left: 28px;
+  bottom: 24px;
+  z-index: 10;
+
+  color: #665779;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+/* ========================================
+   光のエフェクト
+======================================== */
+
+#sparkCanvas {
+  position: absolute;
+  top: calc(51% + 70px);
+  left: 0;
+
+  width: 100%;
+  height: 23%;
+  z-index: 4;
+
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+
+  #logo {
+    left: 12px;
+    bottom: 16px;
+    font-size: 25px;
+  }
+}
+
+/* 今回の遠景・近景は透明部分を含む1920×1080の完成キャンバス。
+   3層を同じ高さ・下端で描き、縦横比を保って横に繰り返す。 */
+#sceneryImageLayer,
+#platform {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  pointer-events: none;
+}
+
+/* 仮素材の列車・線路は1080px高での配置を基準に比例配置。 */
+#world {
+  --layout-unit: calc(100vh / 1080);
+  --layout-unit: calc(100dvh / 1080);
+}
+#train {
+  --train-base-height: calc(173 * var(--layout-unit));
+  top: calc(591.4 * var(--layout-unit) + var(--train-base-height) - var(--train-height));
+}
+#railway {
+  top: calc(855 * var(--layout-unit) - var(--rail-tile-y));
+}
+
+/* 軽量版：画面内の画像タイルだけをtransformでスクロールする。 */
+.scene-image-panel {
+  inset: auto;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: auto;
+  clip-path: none;
+  will-change: transform;
+}
+#platform { will-change: auto; }
+/* 下から出現する短い期間だけJSでwill-changeを付ける。 */
+.sleeper { will-change: auto; }
+/* Hosted MemoRail interface */
+:root{font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:#2e4852}body{font-family:inherit}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;touch-action:manipulation}button:focus-visible,a:focus-visible{outline:3px solid #ba8746;outline-offset:4px}#world{isolation:isolate}#train{--train-base-height:min(calc(173 * var(--layout-unit)),9.1vw);top:calc(863 * var(--layout-unit) - var(--train-height) - 2px)}#sparkCanvas{top:calc(700 * var(--layout-unit));height:calc(160 * var(--layout-unit));z-index:3}#logo{position:static;display:inline-block;color:#2e4852;font:400 clamp(29px,3.1vw,43px)/1 Georgia,serif;text-decoration:none;letter-spacing:-1.5px}.logo-rail{display:block;height:1px;background:currentColor;margin:8px 2px 0;position:relative}.app-header{position:absolute;z-index:10;left:32px;right:32px;top:26px;display:flex;justify-content:space-between;align-items:flex-start}.header-actions{display:flex;align-items:center;gap:10px}.icon-button{background:#f9f8efbb;border:1px solid #31455025;border-radius:50%;width:34px;height:34px;font-size:17px;color:#314550;cursor:pointer}.icon-button:hover{background:#fff}#loading{position:absolute;inset:0;z-index:50;background:#ebece3;display:grid;place-items:center;transition:opacity .45s}#loading.done{opacity:0;pointer-events:none}.loading-inner{text-align:center;color:#3e5861}.loading-logo{font-family:Georgia,serif;font-size:44px;letter-spacing:-1px}.loading-inner p{font-size:11px;letter-spacing:.1em;margin-top:20px}.loading-track{display:block;width:150px;height:1px;background:#bcc5b8;margin:18px auto;position:relative;overflow:hidden}.loading-track:after{content:"";position:absolute;left:-35%;width:35%;height:1px;background:#9d7c43;animation:loading 1.2s infinite ease-in-out}@keyframes loading{to{left:100%}}#assetError{position:absolute;inset:0;z-index:60;background:#f3eee7ed;place-content:center;text-align:center;color:#354e55}#assetError:not([hidden]){display:grid}#assetError button{padding:12px 20px;border:1px solid #879b94;border-radius:8px;cursor:pointer;background:white}#world.night #logo{color:#f0e6ce}noscript{position:absolute;inset:30%;z-index:99;background:#fff;padding:30px}
+@media(min-width:1800px){.app-header{left:48px;right:48px;top:35px}}
+@media(max-height:680px) and (min-width:701px){.app-header{top:17px}}
+@media(max-width:700px){.app-header{left:20px;right:20px;top:22px}.header-actions{gap:7px}#train{--train-base-height:9.1vw}}
+@media(prefers-reduced-motion:reduce){.loading-track:after{animation:none}button{transition:none}}
+/* Experience flow */
+#train{transition:opacity .9s ease}#smokeLayer{transition:opacity .8s}#world.at-start #train,#world.at-start #smokeLayer{opacity:0}#world.at-start .app-header{visibility:hidden}.start-screen{position:absolute;inset:0;z-index:25;background:linear-gradient(180deg,#edf0e5e6,#f3efe2bf 55%,#edeee1e3);backdrop-filter:blur(3px);color:#314d55;display:flex;align-items:center;justify-content:flex-end;padding-inline:clamp(12px,3vw,32px) clamp(20px,10vw,160px);text-align:center}.start-screen[hidden]{display:none}.start-content{width:max-content;max-width:100%;margin-top:-7vh}.start-logo{font:400 clamp(68px,9vw,136px)/1 Georgia,"Times New Roman",serif;letter-spacing:-5px;margin:0 auto;width:max-content;max-width:100%}.start-logo-rail{display:block;position:relative;background:#536a68;height:1px;margin:22px 10px 0}.start-button{margin-top:clamp(24px,4vh,44px);display:inline-flex;align-items:center;justify-content:center;gap:15px;border:1px solid #617b6f55;border-radius:100px;padding:17px 27px;font-size:11px;background:#f9f8ed77;color:#3c5659;cursor:pointer;letter-spacing:1px;box-shadow:0 2px 15px #3a534908;transition:background .25s,transform .25s}.start-button:hover:not(:disabled){background:#fffdf2;transform:translateY(-2px)}.start-button:disabled{opacity:.5;cursor:wait}.start-key{font:10px Georgia,serif;letter-spacing:1.8px;border:1px solid #617b6f77;padding:3px 6px;border-radius:3px}.experience-dialog{width:min(720px,calc(100% - 48px));max-height:calc(100dvh - 72px);margin:auto;padding:30px 36px;border:1px solid #fffaf0;border-radius:17px;background:#fbf8ef;color:#314d55;box-shadow:0 18px 90px #193a3a30;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#c2c9b7 transparent;overflow:auto}.experience-dialog::backdrop{background:#163b3929;backdrop-filter:blur(2px)}.experience-dialog[data-view="preview"]{width:min(830px,calc(100% - 48px))}.panel-topline{display:flex;justify-content:space-between;align-items:center;gap:16px}.experience-dialog h2{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-weight:400;font-size:clamp(22px,2.2vw,30px);line-height:1.6;letter-spacing:.08em;margin:17px 0 10px}.panel-description{font-size:11px;line-height:1.95;color:#778779;margin:0 0 22px;white-space:pre-wrap}.panel-actions{position:sticky;bottom:-30px;margin:26px -36px -30px;padding:17px 36px;background:#fbf8effa;border-top:1px solid #d9dfcf88;display:flex;justify-content:flex-end;align-items:center;gap:20px;z-index:2}.confirm-button{border:0;border-radius:7px;padding:14px 25px;background:#334f56;color:#fffaf0;font-size:11px;letter-spacing:.05em;cursor:pointer;min-width:170px;flex-shrink:0}.confirm-button:after{content:' →';margin-left:17px;opacity:.7}.confirm-button:hover:not(:disabled){background:#49666b}.confirm-button:disabled{background:#d6ddcf;color:#8c9b8c;cursor:default}.guide-steps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}.guide-step{display:flex;align-items:flex-start;gap:15px;border:1px solid #d5dccb99;border-radius:9px;padding:19px 15px;min-height:88px;background:#f2f4e955}.guide-step>span{font:italic 18px Georgia,serif;color:#b29d72;line-height:1.8}.guide-step>p{font-size:11px;line-height:1.9;color:#5b726c;margin:0}.field-required{font-size:8px;color:#ad8c58;border:1px solid #c9b88c66;border-radius:3px;padding:1px 4px;margin-left:6px}.input-meta{display:flex;justify-content:space-between;gap:15px;font-size:10px;color:#9ba68e;min-height:20px;margin-top:6px}.form-error{color:#a2624b;font-size:10px;line-height:1.8;margin:0}.word-selection-head{display:flex;justify-content:space-between;font-size:10px;color:#7f927c;padding-bottom:10px;border-bottom:1px solid #d6decd}.word-choices{display:flex;flex-wrap:wrap;gap:8px;max-height:185px;overflow:auto;padding:17px 2px;margin-bottom:4px}.word-toggle{border:1px solid #cad5c1;background:#fbfcf4;border-radius:30px;padding:8px 14px;font-size:12px;line-height:1.5;color:#506c62;cursor:pointer;transition:background .15s,color .15s,border-color .15s}.word-toggle[aria-pressed="true"]{background:#e7d9c5;color:#8a5e42;border-color:#c6aa83;text-decoration:line-through;text-decoration-thickness:1px}.word-toggle[aria-pressed="true"]:before{content:'− ';font-size:10px}.word-toggle:hover{border-color:#8ca58d}.text-button{border:0;background:transparent;padding:8px 0;color:#879c81;font-size:10px;cursor:pointer;text-underline-offset:4px}.text-button:hover{text-decoration:underline}.card-tools{display:flex;align-items:center;justify-content:space-between;margin-top:12px}.postcard-wrap{padding:8px;display:grid;place-items:center;background:#e8ecdf;border:1px solid #d6dfca;border-radius:4px}.postcard-wrap canvas{display:block;width:min(100%,75vh);height:auto;max-height:50vh;object-fit:contain;box-shadow:0 5px 15px #344a2d19}.received-note{font-size:11px;line-height:1.9;color:#82917d;text-align:center;margin:17px 0 0}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:700px){.start-logo{font-size:min(68px,20vw);letter-spacing:-3px}.start-button{font-size:10px;padding:14px 18px;gap:10px}.experience-dialog,.experience-dialog[data-view="preview"]{width:calc(100% - 24px);max-height:calc(100dvh - 28px);padding:23px 20px;border-radius:12px}.experience-dialog h2{font-size:22px}.panel-description{font-size:11px}.panel-actions{bottom:-23px;margin:22px -20px -23px;padding:15px 20px;gap:12px;flex-wrap:wrap}.confirm-button{width:100%}.guide-steps{grid-template-columns:1fr;gap:8px}.guide-step{min-height:0;padding:11px 14px}.word-choices{max-height:160px}.word-toggle{font-size:12px;padding:7px 12px}.postcard-wrap{padding:5px}.postcard-wrap canvas{width:100%;max-height:none}}
+@media(prefers-reduced-motion:reduce){#train,#smokeLayer,.start-button{transition:none}.experience-dialog::backdrop,.start-screen{backdrop-filter:none}}
+
+.dialog-restart{border:0;background:transparent;color:#9aa990;padding:3px 0 3px 12px;font-family:inherit;font-size:9px;cursor:pointer;white-space:nowrap}.dialog-restart:hover{color:#506e63;text-decoration:underline}.experience-dialog[data-view="outro"] .dialog-restart{display:none}
+/* Avoid oversized backdrop textures when the viewport changes. */
+.experience-dialog::backdrop,.start-screen{backdrop-filter:none}
+/* Required memory form: username, story, and recipient request. */
+.experience-dialog[data-view="memory"]{width:min(780px,calc(100% - 48px))}.memory-form{font-size:1rem;line-height:1.7}.memory-field{margin-top:18px}.memory-field:first-child{margin-top:0}.memory-field label{display:block;font-size:.875rem;line-height:1.8;color:#405d54}.memory-field input,.memory-field textarea{display:block;box-sizing:border-box;width:100%;margin-top:7px;padding:10px 12px;border:1px solid #b8c6af;border-radius:7px;background:#fffdf6;color:#314d55;font-family:inherit;font-size:1rem;line-height:1.7;outline:none}.memory-field input:focus,.memory-field textarea:focus{border-color:#758e70;box-shadow:0 0 0 3px #bdcbb033}.memory-field textarea{resize:vertical;max-height:260px}.memory-field #memoryText{min-height:118px}.memory-field #memoryRequest{min-height:75px}.memory-field [aria-invalid="true"]{border-color:#a35d48}.memory-field input::placeholder,.memory-field textarea::placeholder{font-size:.875rem;color:#7f8e78}.memory-field .field-required{font-size:.75rem;color:#826126;border-color:#ba9a5b88}.field-limit{font-size:.8125rem;color:#6e8068;margin-left:7px}.memory-form .input-meta{font-size:.8125rem;color:#64785e;line-height:1.5;align-items:flex-start;min-height:20px;margin-top:5px}.memory-form .form-error{font-size:.8125rem;color:#984a36;line-height:1.5;flex:1}.memory-form .over-limit{color:#984a36;font-weight:600}.experience-dialog[data-view="memory"] .panel-description{font-size:1rem;line-height:1.7;margin-bottom:18px}.experience-dialog[data-view="memory"] .confirm-button{font-size:.875rem}.experience-dialog[data-view="memory"] .confirm-button::after{content:none}.experience-dialog[data-view="memory"] .panel-actions{margin-top:18px;padding-top:14px;padding-bottom:14px}
+@media(max-width:700px){.experience-dialog[data-view="memory"]{width:calc(100% - 24px)}.memory-field{margin-top:15px}.memory-field label{font-size:.875rem}.memory-field .field-limit{margin-left:4px}}
+
+/* Supplied ticket design. The canvas keeps its original image proportions. */
+@font-face{font-family:"MemoRail Hand";src:url("fonts/KleeOne-Regular.woff") format("woff");font-style:normal;font-weight:400;font-display:swap}
+.postcard-wrap{background:#7e292d;padding:0;border:0;border-radius:3px;overflow:hidden}
+.postcard-wrap canvas{width:100%;height:auto;max-height:none;box-shadow:none;aspect-ratio:1749 / 1182}
+.postcard-wrap canvas[hidden],.postcard-status[hidden]{display:none}
+.postcard-status{font-size:16px;line-height:1.8;color:#fff7ef;padding:28px;text-align:center;margin:0}
+.experience-dialog[data-view="preview"]{width:min(980px,calc(100% - 48px))}
+@media(max-width:700px){.experience-dialog[data-view="preview"]{width:calc(100% - 24px)}}
+
+/* Original sentence with one independent toggle per noun occurrence. */
+.experience-dialog[data-view="words"] .panel-description{font-size:1rem;line-height:1.8}
+.word-selection-head{font-size:1rem;color:#526d64}
+#wordChoices{display:block;white-space:pre-wrap;font-size:1.25rem;line-height:2.8;max-height:35vh;overflow:auto;padding:18px 20px;margin:20px 0 14px;border:1px solid #d0d8c8;border-radius:10px;background:#fffdf6}
+#wordChoices .word-toggle{display:inline;border-radius:6px;padding:5px 6px;margin:0 2px;font:inherit;line-height:1.5;vertical-align:baseline;background:#edf2e6;color:#466658;border:1px solid #b9cbb0}
+#wordChoices .word-toggle[aria-pressed="true"]{background:#e7d9c5;color:#79543d;border-color:#b79b77;text-decoration:line-through}
+#wordChoices .word-toggle:before{content:none}
+#wordChoices .word-toggle:disabled{opacity:.62;cursor:default}
+#analysisStatus,#wordError{font-size:.875rem;line-height:1.8}
+#analysisStatus:empty{display:none}
+#wordError.selection-info{color:#647a61}
+.experience-dialog[data-view="words"] .confirm-button{font-size:.875rem}
+.experience-dialog[data-view="words"] .confirm-button:after,
+.experience-dialog[data-view="preview"] .confirm-button:after{content:none}
+@media(max-width:700px){#wordChoices{font-size:1.125rem;padding:13px 12px;max-height:35vh}}
+
+/* Scene and page indicators have been removed from the experience. */
+.experience-dialog .panel-topline{justify-content:flex-end}
+
+@font-face {
+  font-family: "MemoRail Charifont";
+  src: url("fonts/Charifont.otf") format("opentype"),
+       local("Charifont Regular"), local("Charifont-Regular"), local("Charifont");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "MemoRail Kinkakuji";
+  src: local("Kinkakuji-Normal"), url("fonts/Kinkakuji-Normal.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+}
+
+.postcard-retry {
+  display:block;
+  margin:0 auto 20px;
+  padding:8px 16px;
+  border:1px solid #fff7ef;
+  border-radius:7px;
+  background:#fff7ef;
+  color:#7e292d;
+  font:inherit;
+  cursor:pointer;
+}
+.postcard-retry[hidden]{display:none}
+.postcard-retry:disabled{opacity:.65;cursor:wait}
+
+.receive-instructions {
+  color:#405d54;
+  font-size:1rem;
+  line-height:1.8;
+}
+.receive-instructions p{margin:0 0 .75rem}
+
+.start-drive-hint {
+  margin: 14px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

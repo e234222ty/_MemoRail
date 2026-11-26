@@ -1,0 +1,188 @@
+{
+  "dictionary": "SudachiDict-full",
+  "version": "20260428",
+  "rawBytes": 124061250,
+  "sha256": "3220122f08ca4b8add2102f84327daccc574a57dc50d2380880d9803e962e605",
+  "chunks": [
+    {
+      "file": "full-00.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4021116,
+      "sha256": "1b04e44945bfd77fcc677a6bfd41e49de0cd0fb555c6694afb5764cd1aadc032"
+    },
+    {
+      "file": "full-01.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4195602,
+      "sha256": "cbbe52be7c285ba257b2becbca07ca49dfc79e6658b3890912b4d518ecc3e720"
+    },
+    {
+      "file": "full-02.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4195602,
+      "sha256": "8445586b7f4d0c15c1cb15317f330a3c7364a78312bdd28fe6ea279675f61ebc"
+    },
+    {
+      "file": "full-03.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4195602,
+      "sha256": "1cd83cb13f3e4df66e4d541e74b0baf2b461535bfabe3a96f9b8ba9fe02253e3"
+    },
+    {
+      "file": "full-04.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 3732428,
+      "sha256": "f4609a535ac46d58752eff312ed580a9a84ec3d5eaa95050ae469b701432422e"
+    },
+    {
+      "file": "full-05.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 3710388,
+      "sha256": "03a7287fecefab66d06997e92a94bb32343909387bba228e2be7a5785afd9f34"
+    },
+    {
+      "file": "full-06.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 3296210,
+      "sha256": "60f5231650c97677c4d48d04d7e4afbf382e05182a8e4d011da77dbd487efed6"
+    },
+    {
+      "file": "full-07.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1851346,
+      "sha256": "06e2455e4cda7603203a5d6f6c365f9c5b519d38ceb348a78df0f2b3d8523f6f"
+    },
+    {
+      "file": "full-08.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1859172,
+      "sha256": "cc2335c40a6d121f122a91cde3ebc76af58fc78d79370c25a3b5252c9201bf4e"
+    },
+    {
+      "file": "full-09.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1697400,
+      "sha256": "84f5d02d08cb00fc9c58f7112aea64a250d7a1e800676326c157533e0e6da13d"
+    },
+    {
+      "file": "full-10.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1565487,
+      "sha256": "eb474272d93887f2cb24776a58a154c1ce2c637cf0d0c7f0a9f3ce2091d5ec5e"
+    },
+    {
+      "file": "full-11.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1603202,
+      "sha256": "0ecc1b5515ba8b72872fa17f30250d8c3bb42ea2fe65978fcbe57149b3b2d0d2"
+    },
+    {
+      "file": "full-12.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1463014,
+      "sha256": "ffce1bc0f990e639182f827f74bc02d11d903ead7a2ee13da2c2d57f5135b0b3"
+    },
+    {
+      "file": "full-13.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 956914,
+      "sha256": "15ad54dae4309773585cead2d0e7c8d575f69f70b48c508144eab4ac4d5cd54c"
+    },
+    {
+      "file": "full-14.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 713690,
+      "sha256": "e418702f11e800c7db4cba657d4ef4cf82604c13bc1361318a26991229223549"
+    },
+    {
+      "file": "full-15.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1289179,
+      "sha256": "ca196333843fcb870434d2cfe87af7aae42c65711cc17018728662418fec2a17"
+    },
+    {
+      "file": "full-16.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1607136,
+      "sha256": "b9080f90cc558d0418d6889384f71e63bb422e620035729dd97dce55bcde6955"
+    },
+    {
+      "file": "full-17.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1639162,
+      "sha256": "cb619d4d2316a6c4b929f2c98f8072569b96aece6d654850d90d170bf19c9154"
+    },
+    {
+      "file": "full-18.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 1694081,
+      "sha256": "94d3246fb0cbb675a2fbc17880af508d3c8b01c66b6a61b239f6be38386c77eb"
+    },
+    {
+      "file": "full-19.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 2948935,
+      "sha256": "2fb2d481cee533a0c3e2961dd9bafc59e355e296da2fb68558fedfd84ada0d37"
+    },
+    {
+      "file": "full-20.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4153838,
+      "sha256": "dd9d5dfcb1971ebf9f1f29fbc497509b91af61f4cc2176654d8637a42c6cc9c3"
+    },
+    {
+      "file": "full-21.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4183423,
+      "sha256": "22394da2165ef484f22797122b7ab5f521112c9bbc2ec12c1012b344e0d55fe1"
+    },
+    {
+      "file": "full-22.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4184440,
+      "sha256": "c5cc1c4984d9b8bdc118a7d6ddb980bf80aecc0f94a69e1e51345cfbddd34ea9"
+    },
+    {
+      "file": "full-23.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4185930,
+      "sha256": "cf5b3a0265dd9817755c1c5e9447dbd68ece4fea7544556e6c84b0125116e6e9"
+    },
+    {
+      "file": "full-24.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4189564,
+      "sha256": "3d054f8226f8f272d8f610e93fcbebc5c42175886de4a563013507bc19079a0c"
+    },
+    {
+      "file": "full-25.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4186889,
+      "sha256": "fd1a436e24a2c6a1258b5c58608bc472df57a59a51fa0750e2592acfc587bce1"
+    },
+    {
+      "file": "full-26.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4187241,
+      "sha256": "e5ed2604a92d8caab59208ebd84b22c01650f4716443725a0a87c3455c89710f"
+    },
+    {
+      "file": "full-27.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4189791,
+      "sha256": "3b8d32e15a62857e5d9466d6642ecf4da05bb3c35ced8dae779827b7da0c6e3e"
+    },
+    {
+      "file": "full-28.bin",
+      "rawBytes": 4194304,
+      "transferBytes": 4190380,
+      "sha256": "4759b2903ff08f29273eefaed752ac6e30fc4cc222a2f9576eb05b5323e6eea0"
+    },
+    {
+      "file": "full-29.bin",
+      "rawBytes": 2426434,
+      "transferBytes": 2423820,
+      "sha256": "cbc7f37440ee1d30f5a06d9c56696f663a8d0e4f532ab3d43ab492d479edd1c8"
+    }
+  ]
+}
