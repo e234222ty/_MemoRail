@@ -117,6 +117,23 @@
     // Avoid a job for every keystroke, including Japanese IME composition.
     analysisTimer=setTimeout(()=>{analysisTimer=null;analyzeMemory(text);},350);
   }
+  function analysisErrorMessage(error){
+    const code=error?.morphologyCode;
+    if(/^DICTIONARY_HTTP_[0-9]{3}$/.test(code))return `辞書ファイルを取得できませんでした（HTTP ${code.slice(-3)}）。`;
+    return {
+      DIGEST_UNAVAILABLE:'辞書を検証できません。このページをHTTPSまたはlocalhostで開いてください。',
+      DICTIONARY_LOAD:'辞書を読み込めませんでした（DICTIONARY_LOAD）。',
+      DICTIONARY_INTEGRITY:'配信された辞書データが一致しません（DICTIONARY_INTEGRITY）。',
+      SUDACHI_INIT:'Sudachiの実行環境を起動できませんでした（SUDACHI_INIT）。',
+      PYODIDE_INIT:'Pythonの実行環境を起動できませんでした（PYODIDE_INIT）。',
+      PYTHON_FILES:'解析用のPythonファイルを取得できませんでした（PYTHON_FILES）。',
+      ANALYZER_INIT:'解析エンジンを初期化できませんでした（ANALYZER_INIT）。',
+      WORKER_START:'解析用のWorkerを起動できませんでした（WORKER_START）。',
+      PREPARE_TIMEOUT:'辞書と実行環境の準備が時間内に完了しませんでした（PREPARE_TIMEOUT）。',
+      ANALYZE_TIMEOUT:'文章の解析が時間内に完了しませんでした（ANALYZE_TIMEOUT）。',
+      ANALYZER_RUN:'文章の解析中にエラーが発生しました（ANALYZER_RUN）。'
+    }[code]||'解析結果を読み込めませんでした（ANALYSIS_RESULT）。';
+  }
   async function analyzeMemory(text){
     clearTimeout(analysisTimer);analysisTimer=null;
     if(analysis.text!==text)selected.clear();
@@ -142,9 +159,9 @@
       selected=new Set([...selected].filter(id=>available.has(id)).slice(0,MAX_SELECTED_WORDS));
       analysis={text,status:'ready',message:''};
       if(currentView==='words')renderWordChoices();
-    }catch{
+    }catch(error){
       if(generation!==analysisId)return;
-      analysis={text,status:'error',message:'解析を読み込めませんでした。接続を確認して、もう一度お試しください。'};
+      analysis={text,status:'error',message:analysisErrorMessage(error)};
       if(currentView==='words')renderWordChoices();
     }
   }

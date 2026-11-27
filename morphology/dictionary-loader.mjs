@@ -2,8 +2,15 @@
 export async function loadDictionary(progress,metrics,options={}){
   const base=options.base||new URL('./',import.meta.url),fetcher=options.fetch||fetch;
   const store=options.storage===undefined?globalThis.caches:options.storage;
-  const digest=options.digest||async function(bytes){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(b=>b.toString(16).padStart(2,'0')).join('');};
-  async function get(url,requestOptions){const response=await fetcher(url,requestOptions);if(!response.ok)throw new Error('Dictionary unavailable.');return response;}
+  const dictionaryError=code=>Object.assign(new Error(code),{morphologyCode:code});
+  const subtle=globalThis.crypto?.subtle;
+  if(!options.digest&&!subtle)throw dictionaryError('DIGEST_UNAVAILABLE');
+  const digest=options.digest||async function(bytes){return Array.from(new Uint8Array(await subtle.digest('SHA-256',bytes))).map(b=>b.toString(16).padStart(2,'0')).join('');};
+  async function get(url,requestOptions){
+    const response=await fetcher(url,requestOptions);
+    if(!response.ok)throw dictionaryError(`DICTIONARY_HTTP_${response.status}`);
+    return response;
+  }
   const manifest=await (await get(new URL('dictionary/manifest.json',base),{cache:'no-cache'})).json();
   let cache=null;
   try{cache=await store?.open('memorail-morphology-chunks-v1');}catch(error){metrics.cacheError=error.name;}
@@ -12,7 +19,7 @@ export async function loadDictionary(progress,metrics,options={}){
   const offsets=manifest.chunks.map(chunk=>{const start=offset;offset+=chunk.rawBytes;return start;});
   async function unpack(packed,chunk){
     const value=new Uint8Array(await new Response(new Response(packed).body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
-    if(value.length!==chunk.rawBytes||await digest(value)!==chunk.sha256)throw new Error('Invalid dictionary chunk.');
+    if(value.length!==chunk.rawBytes||await digest(value)!==chunk.sha256)throw dictionaryError('DICTIONARY_INTEGRITY');
     return value;
   }
   await Promise.all(Array.from({length:6},async()=>{
@@ -44,7 +51,7 @@ export async function loadDictionary(progress,metrics,options={}){
       if(percent!==last){last=percent;progress('解析辞書を準備しています… '+percent+'%');}
     }
   }));
-  if(offset!==manifest.rawBytes||await digest(bytes)!==manifest.sha256)throw new Error('Dictionary checksum mismatch.');
+  if(offset!==manifest.rawBytes||await digest(bytes)!==manifest.sha256)throw dictionaryError('DICTIONARY_INTEGRITY');
   metrics.dictionarySource=hits===manifest.chunks.length?'cache':hits?'mixed':'network';
   metrics.cachedChunks=hits+writes;
   if(hits===manifest.chunks.length)metrics.dictionaryCache='hit';
