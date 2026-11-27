@@ -22,7 +22,7 @@
       </form>`,
     words:`<div class="word-selection-head"><span>${wordSelectionRange}選択</span><span id="selectionCount">0 / ${MAX_SELECTED_WORDS}個</span></div><div id="analysisStatus" role="status"></div><div id="wordChoices" class="word-choices" role="group" aria-label="文章の中から消す単語を${wordSelectionRange}選択"></div><p id="wordError" class="form-error" aria-live="polite"></p><button type="button" id="retryAnalysis" class="text-button" hidden>解析をもう一度試す</button><button type="button" id="editMemory" class="text-button">入力を修正する</button>`,
     preview:`<div class="postcard-wrap"><canvas id="postcardCanvas" width="1749" height="1182" role="img" aria-label="入力した思い出を反映したポストカード"></canvas><p id="postcardStatus" class="postcard-status" role="status">ポストカードを用意しています…</p><button type="button" id="postcardRetry" class="postcard-retry" hidden>もう一度読み込む</button></div><p id="postcardText" class="visually-hidden"></p><div class="card-tools"><button id="editWords" class="text-button" type="button">言葉を選び直す</button></div>`,
-    outro:`<div class="receive-instructions"><p>だれかの思い出が印刷されたポストカードが出力されます。</p><p>ポストカードに書かれた依頼を実行したあと、QRコードを読み取ってください。かすれていた言葉が表示されます。</p></div><p class="received-note">思い出をのせてくれて、ありがとう。<br>また、次の旅で会いましょう。</p>`
+    outro:`<div class="receive-instructions"><p>だれかの思い出が印刷されたポストカードが出力されます</p><p>ポストカードに書かれた依頼を実行したあと、QRコードを読み取ってください。かすれていた言葉が表示されます。</p></div><p class="received-note">思い出をのせてくれて、ありがとう。<br>また、次の旅で会いましょう。</p>`
   };
   for(let i=0;i<flow.length;i++){
     if(!Object.hasOwn(views,flow[i].view)||flow[i].scene<0||flow[i].scene>3||(i&&flow[i].scene<flow[i-1].scene))throw new Error('案内設定のviewまたはsceneを確認してください。');

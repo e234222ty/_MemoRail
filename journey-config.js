@@ -7,7 +7,7 @@ window.MEMORAIL_JOURNEY = {
   steps: [
     {id:'memory', view:'memory', scene:0, stopAt:1, title:'思い出を入力してください', confirmLabel:'次へ'},
     {id:'words', view:'words', scene:1, stopAt:1, title:'文章の中から消す単語を選んでください', confirmLabel:'次へ'},
-    {id:'preview', view:'preview', scene:2, stopAt:1, title:'あなたの思い出のポストカードはこちらです', confirmLabel:'決定'},
+    {id:'preview', view:'preview', scene:2, stopAt:1, title:'あなたの思い出はこのような形で誰かに届きます', confirmLabel:'決定'},
     {id:'farewell', view:'outro', scene:3, stopAt:1, title:'だれかの思い出が、届きました。'}
   ],
   // 現段階は架空の体験用サンプル。登録日時も確認用の架空データです。入力内容を外部に送信しません。
